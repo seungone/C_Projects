@@ -1,0 +1,141 @@
+//
+//  main.cpp
+//  열혈Project
+//
+//  Created by Seungone Kim on 13/04/2019.
+//  Copyright © 2019 Seungone Kim. All rights reserved.
+//
+
+#include <iostream>
+
+using namespace std;
+
+/* Bank Account Management System */
+
+//This software has the following facilities.
+//1. Making a bank account with a given IDNum.
+//2. Depositing money to a bank account.
+//3. Withdrawing money from a bank account.
+//4. Checking the amount of money left in a bank account.
+
+typedef struct{
+    int IDNum;
+    int Money;
+}BankAccount;
+
+void StartingUI(){
+    cout << "=====================================" << endl;
+    cout << "1. Making a bank account"<<endl;
+    cout << "2. Depositing money"<<endl;
+    cout << "3. Withdrawing money"<<endl;
+    cout << "4. Checking the amount of money"<<endl;
+    cout << "5. Exiting the program"<<endl;
+    cout << "=====================================";
+    cout << endl;
+}
+
+void Make_Account(BankAccount* DB, int& n){ // 1 task
+    
+    int Id;
+    
+    cout << "Enter your IDNum : ";
+    cin >> Id;
+    
+    DB[n].IDNum = Id;
+    DB[n].Money =0;
+    n++;
+}
+void Deposit(BankAccount* DB, int n){ // 2 task
+    
+    int Id, idx=0, mon;
+    cout << "Enter your IDNum : ";
+    cin >> Id;
+    
+    for(int k=0;k<n;k++){
+        if(DB[k].IDNum == Id){
+            idx = k;
+        }
+    }
+    
+    cout << "Enter the amount of money you want to deposit : ";
+    cin >> mon;
+    
+    DB[idx].Money += mon;
+}
+void Withdraw(BankAccount* DB, int n){ // 3 task
+    int Id, idx=0, mon;
+    cout << "Enter your IDNum : ";
+    cin >> Id;
+    
+    for(int k=0;k<n;k++){
+        if(DB[k].IDNum == Id){
+            idx = k;
+        }
+    }
+    
+    do{
+        cout << "Enter the amount of money you want to deposit : ";
+        cin >> mon;
+    
+        if(DB[idx].Money-mon >=0){
+            DB[idx].Money -= mon;
+            break;
+        }
+        else
+            cout <<"There isn't enough money to deposit!" << endl;
+    }while(1);
+}
+
+void Check(BankAccount* DB, int n){ // 4 task
+    int Id, idx=0;
+    cout << "Enter your IDNum : ";
+    cin >> Id;
+    
+    for(int k=0;k<n;k++){
+        if(DB[k].IDNum == Id){
+            idx = k;
+        }
+    }
+    
+    cout << "The amount of money you have is" << DB[idx].Money << endl;
+}
+
+int main(int argc, const char * argv[]) {
+    //DataBase to manage accounts.
+    BankAccount DataBase[100];
+    int NumofAccounts=0;
+    
+    //Getting input from the user and executing it until the user wants
+    int option;
+    do{
+        //We start the program with the Starting UI
+        StartingUI();
+        
+        cout << "Choose option : ";
+        cin >> option;
+        //Switch -> execute until user inputs 5
+        switch(option){
+            case 1:
+                Make_Account(DataBase, NumofAccounts);
+                break;
+            case 2:
+                Deposit(DataBase, NumofAccounts);
+                break;
+            case 3:
+                Withdraw(DataBase, NumofAccounts);
+                break;
+            case 4:
+                Check(DataBase, NumofAccounts);
+                break;
+            case 5:
+                break;
+            default:
+                cout << "Wrong number input!" << endl;
+                cout << "Enter again!" << endl;
+                break;
+        }
+    }while(option!=5);
+    
+    cout << "End of Bank Account Management System!" << endl;
+    return 0;
+}
